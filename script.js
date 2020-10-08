@@ -20,6 +20,21 @@ function createCityList(citySearchList) {
     }
   }
 
+  // Directions for the user
+  const previousButton = document.getElementById("previous");
+  const nextButton = document.getElementById("next");
+  const slides = document.querySelectorAll(".slide");
+  let currentSlide = 0;
+
+   // This shows the first slide
+   showSlide(currentSlide);
+
+
+    // These are the Event listeners
+    submitButton.addEventListener('click', showResults);
+    previousButton.addEventListener("click", showPreviousSlide);
+    nextButton.addEventListener("click", showNextSlide);
+
   // API
 
   function populateCityWeather(city, citySearchList) {
