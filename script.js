@@ -1,5 +1,5 @@
 let searchHistory=[]; 
-let defaultCityArr= ["Austin", "Chicago", "New York", "Orlando", "San Francisco", " Seattle", "Denver", "Atlanta"]; 
+let defaultCityArr= ["Johannesburg", "London", "Paris", "Amsterdam", "New York", "Berlin", "Chicago", "Milan"]; 
 let cities=[]
 
 $(document).ready(function(){
