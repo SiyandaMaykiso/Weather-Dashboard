@@ -1,3 +1,5 @@
+// Cities
+
 let searchHistory=[]; 
 let defaultCityArr= ["Johannesburg", "London", "Paris", "Amsterdam", "New York", "Berlin", "Chicago", "Milan"]; 
 let cities=[]
@@ -10,9 +12,9 @@ $(document).ready(function(){
     let state; 
     let searchCity; 
 
-//functions for app
+// Begin commands
     //----------------------------------------------------
-    //Add to search history- invoking if search history not 404, done in forecast data fxn 
+    // Add search history for user
     function addHistory(){
         searchHistory=JSON.parse(localStorage.getItem("searchHistory"));
         if (searchHistory === null){
@@ -28,13 +30,13 @@ $(document).ready(function(){
     
     }
 
-    //Initializes the page with current cities data given the lat and lon from the geolocation api
+    // Uses local api to find local weather
     function initailLocale(lat, lon){
         LatLonStateFinder(currentWeather, forecastData);   
         $("#date").html(moment().format(" (M/D/YYYY) ")); 
     } 
     
-    //Gets 5 day forecast 
+    // Creates 5 Day forcast
     function forecastData(){
         let forecast="https://api.openweathermap.org/data/2.5/forecast?q=" + searchCity +"&units=imperial&APPID=" + appID;
         $.ajax({
@@ -63,8 +65,7 @@ $(document).ready(function(){
         })   
     }
 
-    //get current weather data- optional function parameter to wait for data (retrieves lat and lon)
-    //and creates search history during this function using updated search city name to avoid repeated history
+    // Retrieves local and global weather 
     function currentWeather(fxn) {
         let weather= "https://api.openweathermap.org/data/2.5/weather?q=" + searchCity + "&APPID=" + appID;
         $.getJSON(weather, function(json){
@@ -90,7 +91,7 @@ $(document).ready(function(){
         })  
     }
 
-    //use lat and lon to find state and city name plus image- option function parameters to wait for data (city and state)
+    // User is able to add latitude and longitude to find the city
     function LatLonStateFinder(waitfxn1, waitfxn2){
         let locationurl= "https://www.mapquestapi.com/geocoding/v1/reverse?key="+mapquestID+"&location="+lat+","+lon+"&includeRoadMetadata=true&includeNearestIntersection=true"; 
         $.ajax({
@@ -114,7 +115,7 @@ $(document).ready(function(){
         })
     }
 
-    //create city array which combines the search history and default cities to get 8 city names
+    // Finds a unique city
     function makeCityArr(){
         cities=[];
         let counter=0; 
@@ -143,7 +144,7 @@ $(document).ready(function(){
         return cities; 
     }
 
-    //populate the buttons on the search history with given array
+    //Search history and buttons
     function populateCity(arr){
         let cityId=1; 
         for (let i=0; i<8; i++){
@@ -152,7 +153,7 @@ $(document).ready(function(){
         }
     }
 
-    //clear and reset search history to default cities
+    // Clear and return to default
     function setDefault(){
         event.preventDefault(); 
         searchHistory=[]; 
@@ -161,12 +162,12 @@ $(document).ready(function(){
         populateCity(defaultCityArr); 
     }
 //-----------------------------------------------
-//invocation of functions here: 
+// Management functions
 
-    //set initial buttons of using saved history and default cities
+    //Populate
     populateCity(makeCityArr());  
 
-    //get initial weather data using current position from geolocation
+    //User gets information based on location
     navigator.geolocation.getCurrentPosition(function(position) {
        lat= position.coords.latitude;
        lon = position.coords.longitude; 
@@ -174,7 +175,7 @@ $(document).ready(function(){
         initailLocale(lat, lon); 
       });
     
-    //button listeners to select data for selected cities
+    //Various listener button
     $("button").on("click", function(){
         event.preventDefault();  
 
@@ -188,6 +189,6 @@ $(document).ready(function(){
         forecastData();          
     }); 
 
-    //clear search history on click
+    //Clear history
     $("#clear").on("click", setDefault);   
 })

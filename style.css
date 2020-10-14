@@ -1,5 +1,3 @@
-} */
-
 .card {
 
     min-width: 180px; 
@@ -17,4 +15,4 @@
 .current-weather{
     overflow: scroll; 
 
-background-color: cornsilk;
+background-color: cornsilk;}
